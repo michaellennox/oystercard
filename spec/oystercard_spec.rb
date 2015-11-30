@@ -35,8 +35,7 @@ describe Oystercard do
 
     it 'is expected to reduce current balance by argument passed' do
       oystercard.top_up(25)
-      oystercard.deduct(8)
-      expect(oystercard.balance).to eq 17
+      expect{ oystercard.deduct(8) }.to change{ subject.balance }.by -8
     end
 
   end
