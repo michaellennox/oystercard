@@ -17,7 +17,12 @@ describe Oystercard do
       oystercard.top_up(5)
       expect(oystercard.balance).to eq 5
     end
-    
+
+    it 'is expected to raise error if topup will raise balance over cap' do
+      oystercard.top_up(Oystercard::CARD_CAP)
+      expect{oystercard.top_up(1)}.to raise_error "cap exceeded £#{Oystercard::CARD_CAP}"
+    end
+
   end
 
 end
