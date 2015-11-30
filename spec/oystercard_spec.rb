@@ -36,7 +36,10 @@ describe '#pay' do
     card.top_up(20)
     expect{card.pay(3)}.to change{card.balance}.by -3
   end
-
+it 'Should raise an error if card does not have minimum amount' do
+  min_balance = Oystercard::BALANCE_MIN
+  
+end
 
 end
 
@@ -46,6 +49,9 @@ describe '#Journey_Status' do
   end
   it 'should allow the card to touch out' do
     expect(card).to respond_to(:touch_out)
+  end
+  it 'should display if card is within a journey or not' do
+    expect(card).to respond_to(:in_journey?)
   end
 
 
