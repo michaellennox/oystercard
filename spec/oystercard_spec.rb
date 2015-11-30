@@ -40,4 +40,25 @@ describe Oystercard do
 
   end
 
+  describe '#in_journey?' do
+    it 'is in_journey? false on initialisation' do
+      expect(oystercard.in_journey?).to be false
+    end
+  end
+
+  describe '#touch_in' do
+    it 'is expected to change in_journey? to true' do
+      oystercard.touch_in
+      expect(oystercard).to be_in_journey
+    end
+  end
+
+  describe '#touch_out' do
+    it 'is expected to change in_journey? to false' do
+      oystercard.touch_in
+      oystercard.touch_out
+      expect(oystercard).not_to be_in_journey
+    end
+  end
+
 end
