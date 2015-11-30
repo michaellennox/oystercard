@@ -8,13 +8,17 @@ class Oystercard
   end
 
   def top_up(amount)
-    fail "cap exceeded £#{CARD_CAP}" if over_cap?(amount)
+    fail "Cap exceeded £#{CARD_CAP}" if exceed_cap?(amount)
     @balance += amount
+  end
+
+  def deduct(amount)
+    @balance -= amount
   end
 
   private
 
-  def over_cap?(amount)
+  def exceed_cap?(amount)
     balance + amount > CARD_CAP
   end
 

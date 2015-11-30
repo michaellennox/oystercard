@@ -1,7 +1,7 @@
 require 'oystercard'
 
 describe Oystercard do
-  subject(:oystercard){described_class.new}
+  subject(:oystercard) { described_class.new }
 
   it 'is expected to initialise with balance 0 ' do
     expect(oystercard.balance).to eq 0
@@ -20,7 +20,23 @@ describe Oystercard do
 
     it 'is expected to raise error if topup will raise balance over cap' do
       oystercard.top_up(Oystercard::CARD_CAP)
-      expect{oystercard.top_up(1)}.to raise_error "cap exceeded £#{Oystercard::CARD_CAP}"
+      cap_exceeded = "Cap exceeded £#{Oystercard::CARD_CAP}"
+      expect { oystercard.top_up(1) }.to raise_error cap_exceeded
+    end
+
+  end
+
+  describe '#deduct' do
+
+    it 'is expected to return the current balance minus argument passed' do
+      oystercard.top_up(10)
+      expect(oystercard.deduct(5)).to eq 5
+    end
+
+    it 'is expected to reduce current balance by argument passed' do
+      oystercard.top_up(25)
+      oystercard.deduct(8)
+      expect(oystercard.balance).to eq 17
     end
 
   end
