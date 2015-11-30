@@ -5,4 +5,13 @@ def initialize
   @balance = 0
 end
 
+
+
+
+def top_up(cash)
+@balance = cash
+
+end
+
+
 end
