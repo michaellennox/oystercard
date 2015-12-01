@@ -39,7 +39,6 @@ describe Oystercard do
           expect(oystercard.journey_list).to eq({ station => moorgate, liverpoolst => kingsx })
         end
 
-
       end
     end
 

@@ -1,6 +1,7 @@
 describe 'User Stories' do
 
   let(:oystercard) { Oystercard.new }
+  let(:angel) { Station.new(:angel, 1)}
   let(:station) {double(:station)}
 
   # In order to pay for my journey
@@ -95,4 +96,11 @@ describe 'User Stories' do
     expect(oystercard.journey_list).to eq({ oldst => moorgate, liverpoolst => kingsx })
   end
 
+  # In order to know how far I have travelled
+  # As a customer
+  # I want to know what zone a station is in
+
+  it 'station information is callable by the customer' do
+    expect(angel.zone).to eq 1
+  end
 end

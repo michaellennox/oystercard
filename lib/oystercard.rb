@@ -31,10 +31,15 @@ class Oystercard
 
   def touch_out(station)
     deduct(MINIMUM_CHARGE)
+    store_trip(entry_station, station)
     @entry_station = nil
   end
 
   private
+
+  def store_trip(entry, exit)
+    @journey_list[entry] = exit
+  end
 
   def deduct(amount)
     @balance -= amount
@@ -47,4 +52,5 @@ class Oystercard
   def not_working_balance?
     balance < MINIMUM_BALANCE
   end
+
 end
