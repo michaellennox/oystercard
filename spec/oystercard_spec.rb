@@ -4,6 +4,7 @@ describe Oystercard do
   subject(:card) { described_class.new }
   let(:maximum_balance) { Oystercard::MAXIMUM_BALANCE}
   let(:minimum_fare) {Oystercard::MINIMUM_FARE}
+  let(:station) {double :station}
 
 
   describe '#initialize' do
@@ -30,15 +31,24 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
+    it { is_expected.to respond_to(:touch_in).with(1).argument }
+
     it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
       card.top_up(minimum_fare)
-      card.touch_in
+      card.touch_in(station)
       expect(card.in_journey?).to eq(true)
     end
 
-    it 'raises error if Insufficent funds' do
-      expect{ card.touch_in }.to raise_error "Insufficent funds: top up"
+    it 'raises error if insufficent funds' do
+      expect{ card.touch_in(station) }.to raise_error "Insufficent funds: top up"
     end
+
+    it 'remembers the station the journey started from' do
+      card.top_up(minimum_fare)
+      card.touch_in(station)
+      expect(card.entry_station).to eq station
+    end
+
   end
 
   describe '#touch_out' do
@@ -51,6 +61,13 @@ describe Oystercard do
 
     it 'charges customer when they tap out' do
       expect{card.touch_out}.to change{card.balance}.by(-minimum_fare)
+    end
+
+    it 'clears the entry station upon touch out' do
+      card.top_up(minimum_fare)
+      card.touch_in(station)
+      card.touch_out
+      expect(card.entry_station).to eq nil
     end
   end
 

@@ -2,6 +2,13 @@ describe "Feature Tests" do
   let(:card) {Oystercard.new}
   let(:maximum_balance) {Oystercard::MAXIMUM_BALANCE}
   let(:minimum_fare) {Oystercard::MINIMUM_FARE}
+  let(:station) {double :station}
+
+  describe '#initialize Oystercard' do
+    it 'is initially not in a journey' do
+      expect(card.in_journey?).to eq(false)
+    end
+  end
 
   describe 'behaviour of balance on the card' do
     it 'creates a card with a balance' do
@@ -17,15 +24,22 @@ describe "Feature Tests" do
       expect{card.top_up(1)}.to raise_error("Maximum balance of £#{maximum_balance} exceeded")
     end
   end
+
   describe '#touch_in' do
     it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
       card.top_up(minimum_fare)
-      card.touch_in
+      card.touch_in(station)
       expect(card.in_journey?).to eq(true)
     end
 
     it 'raise error if card balance is zero' do
-      expect{card.touch_in}.to raise_error "Insufficent funds: top up"
+      expect{card.touch_in(station)}.to raise_error "Insufficent funds: top up"
+    end
+
+    it 'remembers the station the journey started from' do
+      card.top_up(minimum_fare)
+      card.touch_in(station)
+      expect(card.entry_station).to eq station
     end
   end
 
@@ -38,13 +52,16 @@ describe "Feature Tests" do
     it 'charges customer when they tap out' do
       expect{card.touch_out}.to change{card.balance}.by(-minimum_fare)
     end
+
+    it 'clears the entry station upon touch out' do
+      card.top_up(minimum_fare)
+      card.touch_in(station)
+      card.touch_out
+      expect(card.entry_station).to eq nil
+    end
   end
 
-describe '#initialize' do
-  it 'is initially not in a journey' do
-    expect(card.in_journey?).to eq(false)
-  end
-end
+
 
 
 
