@@ -34,4 +34,12 @@ describe 'User Stories' do
     end
   end
 
+  # In order to pay for my journey
+  # As a customer
+  # I need to have the minimum amount (£1) for a single journey.
+
+  it 'will not let you through, if you have not got a working balance' do
+    expect{oystercard.touch_in}.to raise_error "Must top up oystercard"
+  end
+
 end

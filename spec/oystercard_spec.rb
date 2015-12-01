@@ -41,7 +41,7 @@ describe Oystercard do
   end
 
   describe '#top_up' do
-    it "has a maximum of #{Oystercard::MAXIMUM_CAPACITY}" do
+    it "does not top up over capacity of #{Oystercard::MAXIMUM_CAPACITY}" do
       oystercard.top_up(Oystercard::MAXIMUM_CAPACITY)
       over_limit = "Card at limit £#{Oystercard::MAXIMUM_CAPACITY}"
       expect{ oystercard.top_up(1) }.to raise_error over_limit
@@ -49,8 +49,14 @@ describe Oystercard do
   end
 
   describe '#in_journey?' do
-    it 'by default customer not in journey' do
+    it 'by default card is not in journey' do
       expect(oystercard).not_to be_in_journey
+    end
+  end
+
+  describe '#touch_in' do
+    it 'will not let you through, if you have not got a working balance' do
+      expect{oystercard.touch_in}.to raise_error "Must top up oystercard"
     end
   end
 
