@@ -30,7 +30,6 @@ describe Oystercard do
           oystercard.touch_out(station)
           expect(oystercard.entry_station).to be nil
         end
-        it{is_expected.to respond_to(:touch_out).with(1).argument}
 
         it 'will store all previous trips in the journey_list variable' do
           moorgate, liverpoolst, kingsx = double(:station), double(:station), double(:station)
