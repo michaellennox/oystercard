@@ -92,7 +92,7 @@ describe 'User Stories' do
     oystercard.touch_out(moorgate)
     oystercard.touch_in(liverpoolst)
     oystercard.touch_out(kingsx)
-    expect(oystercard.journey_list).to eq({ oldst => moorgate, liverpoolst => kingsx })
+    expect(oystercard.journey.journey_list).to eq({ oldst => moorgate, liverpoolst => kingsx })
   end
 
   # In order to know how far I have travelled
