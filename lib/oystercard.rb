@@ -25,8 +25,8 @@ class Oystercard
   end
 
   def touch_out(station)
-    deduct(MINIMUM_CHARGE)
     journey.set_exit(station)
+    deduct(MINIMUM_CHARGE)
   end
 
   private

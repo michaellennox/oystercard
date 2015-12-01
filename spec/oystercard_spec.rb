@@ -20,7 +20,7 @@ describe Oystercard do
         before(:example) {oystercard.touch_in(station)}
 
         it 'changes the current status of in_journey? to false' do
-          expect{oystercard.touch_out(station)}.to change{oystercard.in_journey?}.to false
+          expect{oystercard.touch_out(station)}.to change{oystercard.journey.in_journey?}.to false
         end
 
         it "reduces the balance by £#{Oystercard::MINIMUM_CHARGE}" do
@@ -45,7 +45,7 @@ describe Oystercard do
 
     describe '#touch_in' do
       it 'changes the current status of in_journey? to true' do
-        expect{ oystercard.touch_in(station) }.to change{ oystercard.in_journey? }.to true
+        expect{ oystercard.touch_in(station) }.to change{ oystercard.journey.in_journey? }.to true
       end
 
       it 'changes the value of entry_station to whatever is passed' do
@@ -72,7 +72,7 @@ describe Oystercard do
 
   describe '#in_journey?' do
     it 'by default card is not in journey' do
-      expect(oystercard).not_to be_in_journey
+      expect(oystercard.journey).not_to be_in_journey
     end
   end
 
