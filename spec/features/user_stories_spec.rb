@@ -20,18 +20,18 @@ describe 'User Stories' do
     before(:example) { oystercard.top_up 10 }
 
     it 'by default customer not in journey' do
-      expect(oystercard).not_to be_in_journey
+      expect(oystercard.journey).not_to be_in_journey
     end
 
     it 'customer is in journey after touching in' do
       oystercard.touch_in(station)
-      expect(oystercard).to be_in_journey
+      expect(oystercard.journey).to be_in_journey
     end
 
     it 'customer is not in journey after touching out' do
       oystercard.touch_in(station)
       oystercard.touch_out(station)
-      expect(oystercard).not_to be_in_journey
+      expect(oystercard.journey).not_to be_in_journey
     end
   end
 
@@ -67,12 +67,12 @@ describe 'User Stories' do
     end
 
     it 'will record the latest station you touched in at' do
-      expect(oystercard.entry_station).to eq station
+      expect(oystercard.journey.entry_station).to eq station
     end
 
     it 'will forget the entry station upon touch out' do
       oystercard.touch_out(station)
-      expect(oystercard.entry_station).to be nil
+      expect(oystercard.journey.entry_station).to be nil
     end
   end
 

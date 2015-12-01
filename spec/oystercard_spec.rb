@@ -29,7 +29,7 @@ describe Oystercard do
 
         it "forgets entry station" do
           oystercard.touch_out(station)
-          expect(oystercard.entry_station).to be nil
+          expect(oystercard.journey.entry_station).to be nil
         end
 
         it 'will store all previous trips in the journey_list variable' do
@@ -49,7 +49,7 @@ describe Oystercard do
       end
 
       it 'changes the value of entry_station to whatever is passed' do
-        expect{ oystercard.touch_in station }.to change{ oystercard.entry_station }.to station
+        expect{ oystercard.touch_in station }.to change{ oystercard.journey.entry_station }.to station
       end
     end
 
