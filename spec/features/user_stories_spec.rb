@@ -102,4 +102,19 @@ describe 'User Stories' do
   it 'station information is callable by the customer' do
     expect(station.zone).to eq 1
   end
+
+  # In order to be charged correctly
+  # As a customer
+  # I need a penalty charge deducted if I fail to touch in or out
+
+  it 'gives fine if touch out missed' do
+    oystercard.top_up(50)
+    oystercard.touch_in(station)
+    expect{oystercard.touch_in(station)}.to change{oystercard.balance}.by(-6)
+  end
+
+  it 'gives fine if touch in missed' do
+    expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-6)
+  end
+
 end

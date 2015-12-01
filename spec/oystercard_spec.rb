@@ -23,8 +23,8 @@ describe Oystercard do
           expect{oystercard.touch_out(station)}.to change{oystercard.journey.in_journey?}.to false
         end
 
-        it "reduces the balance by £#{Oystercard::MINIMUM_CHARGE}" do
-          expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_CHARGE)
+        it "reduces the balance by £1" do
+          expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-oystercard.journey.fare)
         end
 
         it "forgets entry station" do
@@ -51,6 +51,12 @@ describe Oystercard do
       it 'changes the value of entry_station to whatever is passed' do
         expect{ oystercard.touch_in station }.to change{ oystercard.journey.entry_station }.to station
       end
+
+      it 'imposes a fine on missing a touch in' do
+        oystercard.touch_in(station)
+        expect{oystercard.touch_in(station)}.to change{oystercard.balance}.by(-6)
+      end
+
     end
 
 
