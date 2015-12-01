@@ -29,4 +29,10 @@ describe Oystercard do
     end
   end
 
+  describe '#in_journey?' do
+    it 'by default customer not in journey' do
+      expect(oystercard).not_to be_in_journey
+    end
+  end
+
 end
