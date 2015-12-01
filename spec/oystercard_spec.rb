@@ -4,6 +4,12 @@ describe Oystercard do
   subject(:card) { described_class.new }
   let(:maximum_balance) { Oystercard::MAXIMUM_BALANCE}
 
+  describe '#initialize' do
+    it 'is initially not in a journey' do
+      expect(card.in_journey?).to eq(false)
+    end
+  end
+
   describe '#balance' do
     it 'creates a card with a balance' do
       expect(card.balance).to eq 0
