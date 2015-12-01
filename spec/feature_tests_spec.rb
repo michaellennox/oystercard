@@ -22,6 +22,13 @@ describe "Feature Tests" do
     end
   end
 
+  describe 'touch_in' do
+    it 'allows a card to touch in and begin journey' do
+      card.touch_in
+      expect(card.in_journey?).to eq(true)
+    end
+  end
+
 
 
 
