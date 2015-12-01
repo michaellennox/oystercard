@@ -3,7 +3,7 @@ require 'oystercard'
 describe Oystercard do
   subject(:card) { described_class.new }
   let(:maximum_balance) { Oystercard::MAXIMUM_BALANCE}
-  let(:minumum_fare) {Oystercard::MINIMUM_FARE}
+  let(:minimum_fare) {Oystercard::MINIMUM_FARE}
 
 
   describe '#initialize' do
@@ -29,16 +29,9 @@ describe Oystercard do
     end
   end
 
-  describe '#deduct' do
-    it 'will deduct a fare from the balance' do
-      card.top_up(10)
-      expect{card.deduct(1)}.to change{card.balance}.by(-1)
-    end
-  end
-
   describe '#touch_in' do
     it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
-      card.top_up(minumum_fare)
+      card.top_up(minimum_fare)
       card.touch_in
       expect(card.in_journey?).to eq(true)
     end
@@ -55,7 +48,14 @@ describe Oystercard do
       card.touch_out
       expect(card.in_journey?).to eq(false)
     end
+
+    it 'charges customer when they tap out' do
+      expect{card.touch_out}.to change{card.balance}.by(-minimum_fare)
+    end
   end
+
+
+
 
 
 end
