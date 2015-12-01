@@ -69,7 +69,7 @@ describe "Feature Tests" do
       card.top_up(minimum_fare)
       card.touch_in(entry_station)
       card.touch_out(exit_station)
-      expect(card.journey_history).to eq [{entry_station: exit_station}]
+      expect(card.journey_history).to eq [{entry_station: entry_station, exit_station: exit_station}]
     end
   end
 

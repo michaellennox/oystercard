@@ -61,20 +61,24 @@ describe Oystercard do
       expect(card.entry_station).to eq nil
     end
 
-    it { is_expected.to respond_to(:touch_out).with(1).argument}
+    it 'remembers which station it touched out at' do
+      card.top_up(minimum_fare)
+      card.touch_in(station)
+      card.touch_out(station)
+      expect(card.exit_station).to eq station
+    end
   end
 
   describe 'checking journey history' do
-    it {is_expected.to respond_to(:journey_history)}
-
-
-    it 'can recall previous journeys' do
-      entry_station = double(:station)
-      exit_station = double(:station)
-      card.top_up(minimum_fare)
-      card.touch_in(entry_station)
-      card.touch_out(exit_station)
-      expect(card.journey_history).to eq [{entry_station: exit_station}]
+    context 'completed journeys' do
+      it 'can recall previous journeys' do
+        entry_station = double(:station)
+        exit_station = double(:station)
+        card.top_up(minimum_fare)
+        card.touch_in(entry_station)
+        card.touch_out(exit_station)
+        expect(card.journey_history).to eq [{entry_station: entry_station, exit_station: exit_station}]
+      end
     end
   end
 end
