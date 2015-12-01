@@ -3,6 +3,7 @@ require 'oystercard'
 
 describe Oystercard do
 subject(:card) {described_class.new}
+let(:rand_num) {rand(1..40)}
 
  it 'A new card will defult have a balance of 0' do
   expect(card.balance).to eq 0
@@ -38,7 +39,7 @@ describe '#pay' do
   end
 it 'Should raise an error if card does not have minimum amount' do
   min_balance = Oystercard::BALANCE_MIN
-  
+
 end
 
 end
@@ -52,6 +53,20 @@ describe '#Journey_Status' do
   end
   it 'should display if card is within a journey or not' do
     expect(card).to respond_to(:in_journey?)
+  end
+end
+
+describe '#in_journey' do
+  it 'in_journey should be true after touching in' do
+    card.top_up(rand_num)
+    card.touch_in
+    expect(card.in_journey).to eq true
+  end
+  it 'in_journey should be false after touching out' do
+    card.top_up(rand_num)
+    card.touch_in
+    card.touch_out
+    expect(card.in_journey).to eq false
   end
 
 
