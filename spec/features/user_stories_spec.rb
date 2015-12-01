@@ -42,4 +42,15 @@ describe 'User Stories' do
     expect{oystercard.touch_in}.to raise_error "Must top up oystercard"
   end
 
+  # In order to pay for my journey
+  # As a customer
+  # When my journey is complete, I need the correct amount deducted from my card
+
+
+  it 'will deduct the correct amount from the user\'s card when he travels' do
+    oystercard.top_up(10)
+    oystercard.touch_in
+    expect{oystercard.touch_out}.to change{oystercard.balance}.by(-1)
+  end
+
 end

@@ -14,9 +14,15 @@ describe Oystercard do
     end
 
     describe '#touch_out' do
+      context 'while in_journey' do
+        before(:example) {oystercard.touch_in}
+
       it 'changes the current status of in_journey? to false' do
-        oystercard.touch_in
         expect{oystercard.touch_out}.to change{oystercard.in_journey?}.to false
+      end
+      it "reduces the balance by £#{Oystercard::MINIMUM_BALANCE}" do
+        expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
+      end
       end
     end
 
