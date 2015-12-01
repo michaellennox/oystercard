@@ -7,7 +7,7 @@ describe 'User Stories' do
   # I need my fare deducted from my card
   it 'fare is deducted from the card' do
     oystercard.top_up(50)
-    expect{ oystercard.deduct(5) }.to change{ oystercard.balance }.by (-5)
+    expect{ oystercard.touch_out }.to change{ oystercard.balance }.by (-1)
   end
 
   # In order to get through the barriers.
@@ -51,6 +51,28 @@ describe 'User Stories' do
     oystercard.top_up(10)
     oystercard.touch_in
     expect{oystercard.touch_out}.to change{oystercard.balance}.by(-1)
+  end
+
+
+  # In order to pay for my journey
+  # As a customer
+  # I need to know where I've travelled from
+
+  context 'when touching in at liverpool st' do
+
+    before(:example) do
+      oystercard.top_up 10
+      oystercard.touch_in :liverpoolst
+    end
+
+    it 'will record the latest station you touched in at' do
+      expect(ostercard.entry_station).to eq :liverpoolst
+    end
+
+    it 'will forget the entry station upon touch out' do
+      oystercard.touch_out
+      expect(oystercard.entry_station).to be nil
+    end
   end
 
 end

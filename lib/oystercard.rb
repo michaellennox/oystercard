@@ -2,6 +2,7 @@ class Oystercard
 
   MAXIMUM_CAPACITY = 90
   MINIMUM_BALANCE = 1
+  MINIMUM_CHARGE = MINIMUM_BALANCE
 
   attr_reader :balance
 
@@ -28,6 +29,7 @@ class Oystercard
   end
 
   def touch_out
+    deduct(MINIMUM_CHARGE)
     @journey = false
   end
 
@@ -35,11 +37,15 @@ class Oystercard
 
   attr_reader :journey
 
+  def deduct(amount)
+    @balance -= amount
+  end
+
   def over_limit?(cash)
     balance + cash > MAXIMUM_CAPACITY
   end
 
   def not_working_balance?
-    balance < MINIMUM_BALANCE 
+    balance < MINIMUM_BALANCE
   end
 end

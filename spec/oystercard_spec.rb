@@ -17,12 +17,13 @@ describe Oystercard do
       context 'while in_journey' do
         before(:example) {oystercard.touch_in}
 
-      it 'changes the current status of in_journey? to false' do
-        expect{oystercard.touch_out}.to change{oystercard.in_journey?}.to false
-      end
-      it "reduces the balance by £#{Oystercard::MINIMUM_BALANCE}" do
-        expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
-      end
+        it 'changes the current status of in_journey? to false' do
+          expect{oystercard.touch_out}.to change{oystercard.in_journey?}.to false
+        end
+
+        it "reduces the balance by £#{Oystercard::MINIMUM_CHARGE}" do
+          expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_CHARGE)
+        end
       end
     end
 
@@ -30,13 +31,12 @@ describe Oystercard do
       it 'changes the current status of in_journey? to true' do
         expect{ oystercard.touch_in }.to change{ oystercard.in_journey? }.to true
       end
-    end
 
-    describe '#deduct' do
-      it 'deducts cash from the oystercard' do
-        expect{ oystercard.deduct(5) }.to change{ oystercard.balance }.by (-5)
+      it 'changes the value of entry_station to whatever is passed' do
+        expect{ oystercard.touch_in :liverpoolst }.to change{ oystercard.entry_station }.to :liverpoolst
       end
     end
+
 
   end
 
