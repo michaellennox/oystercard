@@ -1,4 +1,5 @@
 require 'oystercard'
+
 describe Oystercard do
 
   subject(:oystercard) { described_class.new }
