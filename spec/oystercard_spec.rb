@@ -41,4 +41,11 @@ describe Oystercard do
     end
   end
 
+  describe '#touch_out' do
+    it 'changes the current status of in_journey? to false' do
+      oystercard.touch_in
+      expect{oystercard.touch_out}.to change{oystercard.in_journey?}.to false
+    end
+  end
+
 end

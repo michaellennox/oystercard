@@ -18,7 +18,11 @@ class Oystercard
   end
 
   def in_journey?
-    
+    @journey
+  end
+
+  def touch_in
+    @journey = true
   end
 
   private
