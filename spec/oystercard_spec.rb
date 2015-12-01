@@ -12,6 +12,11 @@ describe Oystercard do
       2.times { subject.top_up(10) }
       expect(subject.balance).to eq 20
     end
+
+    it 'has a maximum of 90' do
+      subject.top_up(90)
+      expect{subject.top_up(1)}.to raise_error "Card at limit"
+    end
   end
 
 end
