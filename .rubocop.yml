@@ -4,6 +4,9 @@ AllCops:
   DisplayStyleGuide: true
   RunRailsCops: false
 
+  Exclude:
+    - 'spec/spec_helper.rb'
+
 # inherit is broken: https://github.com/thoughtbot/hound/issues/967
 # adding enabled and disabled yml directly as temporary measure
 

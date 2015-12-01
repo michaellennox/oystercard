@@ -1,5 +1,7 @@
 class Oystercard
 
+  MAXIMUM_CAPACITY = 90
+
   attr_reader :balance
 
   def initialize
@@ -7,6 +9,13 @@ class Oystercard
   end
 
   def top_up(cash)
+    fail "Card at limit £#{MAXIMUM_CAPACITY}" if over_limit?(cash)
     @balance += cash
+  end
+
+  private
+
+  def over_limit?(cash)
+    balance + cash > MAXIMUM_CAPACITY
   end
 end
