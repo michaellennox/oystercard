@@ -24,7 +24,7 @@ describe Oystercard do
         end
 
         it "reduces the balance by £1" do
-          expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-oystercard.journey.fare)
+          expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-1)
         end
 
         it "forgets entry station" do

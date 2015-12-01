@@ -1,11 +1,12 @@
 class Journey
 
-  attr_reader :journey_list, :entry_station
+  attr_reader :journey_list, :entry_station, :fare
 
   MINIMUM_CHARGE = 1
 
   def initialize
     @journey_list = {}
+    @fare = 0
   end
 
   def store_trip(entry, exit)
@@ -18,17 +19,16 @@ class Journey
 
   def set_exit(station)
     store_trip(entry_station, station)
-    return 6 unless in_journey?
+    calculate_fare
     set_entrance(nil)
-    fare
   end
 
   def in_journey?
     !!entry_station
   end
 
-  def fare
-    MINIMUM_CHARGE
+  def calculate_fare
+    in_journey? ? @fare = MINIMUM_CHARGE : @fare = 6
   end
 
 end
