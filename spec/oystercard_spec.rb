@@ -9,8 +9,8 @@ describe Oystercard do
 
   describe '#top_up' do
     it 'adds cash to the oystercard' do
-      subject.top_up(10)
-      expect(subject.balance).to eq 10
+      2.times { subject.top_up(10) }
+      expect(subject.balance).to eq 20
     end
   end
 
