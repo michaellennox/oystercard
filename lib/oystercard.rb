@@ -20,23 +20,20 @@ class Oystercard
   end
 
   def in_journey?
-    journey
+    !!entry_station
   end
 
   def touch_in(station)
     fail "Must top up oystercard" if not_working_balance?
     @entry_station = station
-    @journey = true
   end
 
   def touch_out
     deduct(MINIMUM_CHARGE)
-    @journey = false
+    @entry_station = nil
   end
 
   private
-
-  attr_reader :journey
 
   def deduct(amount)
     @balance -= amount

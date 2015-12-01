@@ -76,4 +76,21 @@ describe 'User Stories' do
     end
   end
 
+  # In order to know where I have been
+  # As a customer
+  # I want to see to all my previous trips
+  
+  let(:oldst) {double :station}
+  let(:moorgate) {double :station}
+  let(:liverpoolst) {double :station}
+  let(:kingsx) {double :station}
+
+  it 'will store all previous trips in the journey_list variable' do
+    oystercard.touch_in(oldst)
+    oystercard.touch_out(moorgate)
+    oystercard.touch_in(liverpoolst)
+    oystercard.touch_out(kingsx)
+    expect(oystercard.journey_list).to eq({ oldst => moorgate, liverpoolst => kingsx })
+  end
+
 end

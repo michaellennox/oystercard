@@ -46,6 +46,11 @@ describe Oystercard do
 
   end
 
+  describe '#journey_list' do
+    it 'is expected to initialize as an empty hash' do
+      expect(oystercard.journey_list).to eq({})
+    end
+  end
   describe '#balance' do
     it 'returns balance as 0' do
       expect(oystercard.balance).to eq 0
