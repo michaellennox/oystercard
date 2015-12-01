@@ -1,6 +1,7 @@
 class Oystercard
 
   MAXIMUM_CAPACITY = 90
+  MINIMUM_BALANCE = 1
 
   attr_reader :balance
 
@@ -22,6 +23,7 @@ class Oystercard
   end
 
   def touch_in
+    fail "Must top up oystercard" if not_working_balance?
     @journey = true
   end
 
@@ -35,5 +37,9 @@ class Oystercard
 
   def over_limit?(cash)
     balance + cash > MAXIMUM_CAPACITY
+  end
+
+  def not_working_balance?
+    balance < MINIMUM_BALANCE 
   end
 end
