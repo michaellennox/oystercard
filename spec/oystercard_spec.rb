@@ -9,7 +9,7 @@ describe Oystercard do
 
   describe '#initialize' do
     it 'is initially not in a journey' do
-      expect(card.in_journey?).to eq(false)
+      expect(card.entry_station).to eq(nil)
     end
   end
 
@@ -31,13 +31,6 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
-    it { is_expected.to respond_to(:touch_in).with(1).argument }
-
-    it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
-      card.top_up(minimum_fare)
-      card.touch_in(station)
-      expect(card.in_journey?).to eq(true)
-    end
 
     it 'raises error if insufficent funds' do
       expect{ card.touch_in(station) }.to raise_error "Insufficent funds: top up"
@@ -52,12 +45,6 @@ describe Oystercard do
   end
 
   describe '#touch_out' do
-    it {is_expected.to respond_to(:touch_out)}
-
-    it 'ends a journey when the card is touched out' do
-      card.touch_out
-      expect(card.in_journey?).to eq(false)
-    end
 
     it 'charges customer when they tap out' do
       expect{card.touch_out}.to change{card.balance}.by(-minimum_fare)

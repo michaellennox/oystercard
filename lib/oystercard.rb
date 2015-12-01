@@ -23,11 +23,13 @@ class Oystercard
     clear_entry
   end
 
+
+
+  private
+
   def in_journey?
     !!@entry_station
   end
-
-  private
 
   def set_entry(station)
     @entry_station = station
