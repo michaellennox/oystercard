@@ -1,6 +1,7 @@
 describe 'User Stories' do
 
   let(:oystercard) { Oystercard.new }
+  let(:station) {double(:station)}
 
   # In order to pay for my journey
   # As a customer
@@ -23,12 +24,12 @@ describe 'User Stories' do
     end
 
     it 'customer is in journey after touching in' do
-      oystercard.touch_in
+      oystercard.touch_in(station)
       expect(oystercard).to be_in_journey
     end
 
     it 'customer is not in journey after touching out' do
-      oystercard.touch_in
+      oystercard.touch_in(station)
       oystercard.touch_out
       expect(oystercard).not_to be_in_journey
     end
@@ -39,7 +40,7 @@ describe 'User Stories' do
   # I need to have the minimum amount (£1) for a single journey.
 
   it "will not let you through, if balance below minimum balance" do
-    expect{oystercard.touch_in}.to raise_error "Must top up oystercard"
+    expect{oystercard.touch_in(station)}.to raise_error "Must top up oystercard"
   end
 
   # In order to pay for my journey
@@ -49,7 +50,7 @@ describe 'User Stories' do
 
   it 'will deduct the correct amount from the user\'s card when he travels' do
     oystercard.top_up(10)
-    oystercard.touch_in
+    oystercard.touch_in(station)
     expect{oystercard.touch_out}.to change{oystercard.balance}.by(-1)
   end
 
@@ -62,11 +63,11 @@ describe 'User Stories' do
 
     before(:example) do
       oystercard.top_up 10
-      oystercard.touch_in :liverpoolst
+      oystercard.touch_in station
     end
 
     it 'will record the latest station you touched in at' do
-      expect(ostercard.entry_station).to eq :liverpoolst
+      expect(oystercard.entry_station).to eq station
     end
 
     it 'will forget the entry station upon touch out' do

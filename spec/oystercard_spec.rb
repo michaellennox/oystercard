@@ -2,6 +2,7 @@ require 'oystercard'
 describe Oystercard do
 
   subject(:oystercard) { described_class.new }
+  let(:station) {double(:station)}
 
   context 'card has a working balance' do
 
@@ -15,7 +16,7 @@ describe Oystercard do
 
     describe '#touch_out' do
       context 'while in_journey' do
-        before(:example) {oystercard.touch_in}
+        before(:example) {oystercard.touch_in(station)}
 
         it 'changes the current status of in_journey? to false' do
           expect{oystercard.touch_out}.to change{oystercard.in_journey?}.to false
@@ -29,11 +30,11 @@ describe Oystercard do
 
     describe '#touch_in' do
       it 'changes the current status of in_journey? to true' do
-        expect{ oystercard.touch_in }.to change{ oystercard.in_journey? }.to true
+        expect{ oystercard.touch_in(station) }.to change{ oystercard.in_journey? }.to true
       end
 
       it 'changes the value of entry_station to whatever is passed' do
-        expect{ oystercard.touch_in :liverpoolst }.to change{ oystercard.entry_station }.to :liverpoolst
+        expect{ oystercard.touch_in station }.to change{ oystercard.entry_station }.to station
       end
     end
 
@@ -62,7 +63,7 @@ describe Oystercard do
 
   describe '#touch_in' do
     it "will not let you through, if balance below £#{Oystercard::MINIMUM_BALANCE}"  do
-      expect{oystercard.touch_in}.to raise_error "Must top up oystercard"
+      expect{oystercard.touch_in(station)}.to raise_error "Must top up oystercard"
     end
   end
 
