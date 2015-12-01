@@ -14,19 +14,24 @@ describe 'User Stories' do
   # As a customer
   # I need to touch in and out.
 
-  it 'by default customer not in journey' do
-    expect(oystercard).not_to be_in_journey
-  end
+  context 'card has a working balance' do
 
-  it 'customer is in journey after touching in' do
-    oystercard.touch_in
-    expect(oystercard).to be_in_journey
-  end
+    before(:example) { oystercard.top_up 10 }
 
-  it 'customer is not in journey after touching out' do
-    oystercard.touch_in
-    oystercard.touch_out
-    expect(oystercard).not_to be_in_journey
+    it 'by default customer not in journey' do
+      expect(oystercard).not_to be_in_journey
+    end
+
+    it 'customer is in journey after touching in' do
+      oystercard.touch_in
+      expect(oystercard).to be_in_journey
+    end
+
+    it 'customer is not in journey after touching out' do
+      oystercard.touch_in
+      oystercard.touch_out
+      expect(oystercard).not_to be_in_journey
+    end
   end
 
 end

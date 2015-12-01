@@ -18,14 +18,20 @@ class Oystercard
   end
 
   def in_journey?
-    @journey
+    journey
   end
 
   def touch_in
     @journey = true
   end
 
+  def touch_out
+    @journey = false
+  end
+
   private
+
+  attr_reader :journey
 
   def over_limit?(cash)
     balance + cash > MAXIMUM_CAPACITY
