@@ -3,6 +3,8 @@ require 'oystercard'
 describe Oystercard do
   subject(:card) { described_class.new }
   let(:maximum_balance) { Oystercard::MAXIMUM_BALANCE}
+  let(:minumum_fare) {Oystercard::MINIMUM_FARE}
+
 
   describe '#initialize' do
     it 'is initially not in a journey' do
@@ -35,9 +37,14 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
-    it 'allows a card to touch in and begin journey' do
+    it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
+      card.top_up(minumum_fare)
       card.touch_in
       expect(card.in_journey?).to eq(true)
+    end
+
+    it 'raises error if Insufficent funds' do
+      expect{ card.touch_in }.to raise_error "Insufficent funds: top up"
     end
   end
 

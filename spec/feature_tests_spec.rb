@@ -1,6 +1,7 @@
 describe "Feature Tests" do
   let(:card) {Oystercard.new}
   let(:maximum_balance) {Oystercard::MAXIMUM_BALANCE}
+  let(:minumum_fare) {Oystercard::MINIMUM_FARE}
 
   describe 'behaviour of balance on the card' do
     it 'creates a card with a balance' do
@@ -23,9 +24,14 @@ describe "Feature Tests" do
   end
 
   describe '#touch_in' do
-    it 'allows a card to touch in and begin journey' do
+    it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
+      card.top_up(minumum_fare)
       card.touch_in
       expect(card.in_journey?).to eq(true)
+    end
+
+    it 'raise error if card balance is zero' do
+      expect{card.touch_in}.to raise_error "Insufficent funds: top up"
     end
   end
 
