@@ -6,7 +6,7 @@ describe "Feature Tests" do
 
   describe '#initialize Oystercard' do
     it 'is initially not in a journey' do
-      expect(card.entry_station).to eq(nil)
+      expect(card.current_journey[:entry_station]).to eq(nil)
     end
   end
 
@@ -29,7 +29,7 @@ describe "Feature Tests" do
     it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
       card.top_up(minimum_fare)
       card.touch_in(station)
-      expect(card.entry_station).to eq(station)
+      expect(card.current_journey[:entry_station]).to eq(station)
     end
 
     it 'raise error if card balance is zero' do
@@ -39,14 +39,14 @@ describe "Feature Tests" do
     it 'remembers the station the journey started from' do
       card.top_up(minimum_fare)
       card.touch_in(station)
-      expect(card.entry_station).to eq station
+      expect(card.current_journey[:entry_station]).to eq station
     end
   end
 
   describe '#touch_out' do
     it 'allows a card to touch out and end a journey' do
         card.touch_out(station)
-        expect(card.entry_station).to eq(nil)
+        expect(card.current_journey[:entry_station]).to eq(nil)
     end
 
     it 'charges customer when they tap out' do
@@ -57,7 +57,7 @@ describe "Feature Tests" do
       card.top_up(minimum_fare)
       card.touch_in(station)
       card.touch_out((station))
-      expect(card.entry_station).to eq nil
+      expect(card.current_journey[:entry_station]).to eq nil
     end
 
   end

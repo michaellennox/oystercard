@@ -9,7 +9,7 @@ describe Oystercard do
 
   describe '#initialize' do
     it 'is initially not in a journey' do
-      expect(card.entry_station).to eq(nil)
+      expect(card.current_journey[:entry_station]).to eq(nil)
     end
 
     it 'has an empty journey list' do
@@ -44,7 +44,7 @@ describe Oystercard do
     it 'remembers the station the journey started from' do
       card.top_up(minimum_fare)
       card.touch_in(station)
-      expect(card.entry_station).to eq station
+      expect(card.current_journey[:entry_station]).to eq station
     end
 
   end
@@ -58,15 +58,9 @@ describe Oystercard do
       card.top_up(minimum_fare)
       card.touch_in(station)
       card.touch_out(station)
-      expect(card.entry_station).to eq nil
+      expect(card.current_journey[:entry_station]).to eq nil
     end
 
-    it 'remembers which station it touched out at' do
-      card.top_up(minimum_fare)
-      card.touch_in(station)
-      card.touch_out(station)
-      expect(card.exit_station).to eq station
-    end
   end
 
   describe 'checking journey history' do
