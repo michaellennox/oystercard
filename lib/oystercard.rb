@@ -1,3 +1,6 @@
+require 'journey'
+require 'station'
+
 class Oystercard
 
   MAXIMUM_CAPACITY = 90
