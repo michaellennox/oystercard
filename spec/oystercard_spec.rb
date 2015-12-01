@@ -25,6 +25,11 @@ describe Oystercard do
         it "reduces the balance by £#{Oystercard::MINIMUM_CHARGE}" do
           expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_CHARGE)
         end
+
+        it "forgets entry station" do
+          oystercard.touch_out
+          expect(oystercard.entry_station).to be nil
+        end
       end
     end
 
