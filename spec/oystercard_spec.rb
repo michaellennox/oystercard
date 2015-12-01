@@ -40,6 +40,11 @@ describe Oystercard do
           expect(oystercard.journey.journey_list).to eq({ station => moorgate, liverpoolst => kingsx })
         end
 
+        it 'imposes a fine on missing a touch out' do
+          oystercard.touch_out(station)
+          expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-6)
+        end
+
       end
     end
 

@@ -8,6 +8,7 @@ describe 'User Stories' do
   # I need my fare deducted from my card
   it 'fare is deducted from the card' do
     oystercard.top_up(50)
+    oystercard.touch_in(station)
     expect{ oystercard.touch_out(station) }.to change{ oystercard.balance }.by (-1)
   end
 

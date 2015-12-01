@@ -18,6 +18,7 @@ class Journey
 
   def set_exit(station)
     store_trip(entry_station, station)
+    return 6 unless in_journey?
     set_entrance(nil)
     fare
   end
