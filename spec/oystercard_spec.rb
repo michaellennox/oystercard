@@ -19,17 +19,28 @@ describe Oystercard do
         before(:example) {oystercard.touch_in(station)}
 
         it 'changes the current status of in_journey? to false' do
-          expect{oystercard.touch_out}.to change{oystercard.in_journey?}.to false
+          expect{oystercard.touch_out(station)}.to change{oystercard.in_journey?}.to false
         end
 
         it "reduces the balance by £#{Oystercard::MINIMUM_CHARGE}" do
-          expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_CHARGE)
+          expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_CHARGE)
         end
 
         it "forgets entry station" do
-          oystercard.touch_out
+          oystercard.touch_out(station)
           expect(oystercard.entry_station).to be nil
         end
+        it{is_expected.to respond_to(:touch_out).with(1).argument}
+
+        it 'will store all previous trips in the journey_list variable' do
+          moorgate, liverpoolst, kingsx = double(:station), double(:station), double(:station)
+          oystercard.touch_out(moorgate)
+          oystercard.touch_in(liverpoolst)
+          oystercard.touch_out(kingsx)
+          expect(oystercard.journey_list).to eq({ station => moorgate, liverpoolst => kingsx })
+        end
+
+
       end
     end
 
