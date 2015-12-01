@@ -11,6 +11,11 @@ describe Oystercard do
     it 'is initially not in a journey' do
       expect(card.entry_station).to eq(nil)
     end
+
+    it 'has an empty journey list' do
+      expect(card.journey_history).to eq []
+    end
+
   end
 
   describe '#balance' do
@@ -45,21 +50,31 @@ describe Oystercard do
   end
 
   describe '#touch_out' do
-
     it 'charges customer when they tap out' do
-      expect{card.touch_out}.to change{card.balance}.by(-minimum_fare)
+      expect{card.touch_out((station))}.to change{card.balance}.by(-minimum_fare)
     end
 
     it 'clears the entry station upon touch out' do
       card.top_up(minimum_fare)
       card.touch_in(station)
-      card.touch_out
+      card.touch_out(station)
       expect(card.entry_station).to eq nil
     end
+
+    it { is_expected.to respond_to(:touch_out).with(1).argument}
   end
 
+  describe 'checking journey history' do
+    it {is_expected.to respond_to(:journey_history)}
 
 
-
-
+    it 'can recall previous journeys' do
+      entry_station = double(:station)
+      exit_station = double(:station)
+      card.top_up(minimum_fare)
+      card.touch_in(entry_station)
+      card.touch_out(exit_station)
+      expect(card.journey_history).to eq [{entry_station: exit_station}]
+    end
+  end
 end

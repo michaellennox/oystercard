@@ -45,19 +45,31 @@ describe "Feature Tests" do
 
   describe '#touch_out' do
     it 'allows a card to touch out and end a journey' do
-        card.touch_out
+        card.touch_out(station)
         expect(card.entry_station).to eq(nil)
     end
 
     it 'charges customer when they tap out' do
-      expect{card.touch_out}.to change{card.balance}.by(-minimum_fare)
+      expect{card.touch_out((station))}.to change{card.balance}.by(-minimum_fare)
     end
 
     it 'clears the entry station upon touch out' do
       card.top_up(minimum_fare)
       card.touch_in(station)
-      card.touch_out
+      card.touch_out((station))
       expect(card.entry_station).to eq nil
+    end
+
+  end
+
+  describe 'previous journeys' do
+    it 'can recall all previous journeys' do
+      entry_station = double(:station)
+      exit_station = double(:station)
+      card.top_up(minimum_fare)
+      card.touch_in(entry_station)
+      card.touch_out(exit_station)
+      expect(card.journey_history).to eq [{entry_station: exit_station}]
     end
   end
 
