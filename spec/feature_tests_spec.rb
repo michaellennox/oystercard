@@ -2,7 +2,7 @@ describe "Feature Tests" do
   let(:card) {Oystercard.new}
   let(:maximum_balance) {Oystercard::MAXIMUM_BALANCE}
   let(:minimum_fare) {Oystercard::MINIMUM_FARE}
-  let(:station) {Station.new(name, zone)}
+  let(:station) {double(:station)}
 
   describe 'Oystercard' do
     describe '#initialize Oystercard' do
@@ -76,11 +76,10 @@ describe "Feature Tests" do
   end
 
   describe 'Station' do
-    it 'knows which zone a created station is in' do
-      test_station = Station.new("test", 4)
-      expect(station.zone).to eq(4)
+    it 'allows you to see what zone a station is in' do
+      station = Station.new(3)
+      expect(station.zone).to eq 3
     end
   end
-
 
 end
