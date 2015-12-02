@@ -17,7 +17,7 @@ class Oystercard
   end
 
   def touch_in(station)
-    fail "Your balance is too low. Please top up!" if balance < MINIMUM_FARE
+    fail "Your balance is too low. Please top up!" if balance_too_low?
     update_entry(station)
   end
 
@@ -53,11 +53,11 @@ class Oystercard
   private
 
   def limit_exceeded?(amount)
-    amount + balance() > MAXIMUM_BALANCE
+    amount + balance > MAXIMUM_BALANCE
   end
 
-  def limit_too_low?(amount)
-    balance() - amount < 0
+  def balance_too_low?
+    balance < MINIMUM_FARE
   end
 
 end
