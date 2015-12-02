@@ -1,54 +1,71 @@
 #11
 
 class Oystercard
-  attr_reader :balance, :entry_station, :exit_station, :journeys
+  attr_reader :balance, :entry_station, :journeys
   attr_reader :in_journey
 
   BALANCE_LIMIT = 90
   BALANCE_MIN = 1
   FARE = 1
-def initialize
-  @balance=0
-  @in_journey=false
-  @journeys={}
-end
-
-def top_up(x)
-
-  if (@balance + x) > BALANCE_LIMIT
-  raise  "Error £#{BALANCE_LIMIT} limit exceeded"
-  else
-    @balance += x
+  def initialize
+    @balance=0
+    @in_journey=false
+    @journeys={}
   end
+
+  def top_up(amount)
+raise "Error £#{BALANCE_LIMIT} limit exceeded" if over_limit?(amount)
+
+      @balance += amount
+
+  end
+
+
+
+  def touch_in(entry_station)
+    raise  "Error minimum balance to touch in is #{BALANCE_MIN}" if min_limit?
+
+      @in_journey=true
+      @entry_station=entry_station
+
+
+
+
+  end
+  def touch_out(exit_station)
+    @in_journey=false
+    fare_pay
+    journey_log(exit_station)
+    entry_reset
+
+  end
+  def in_journey?
+    @entry_station
+  end
+  def pay(amount)
+    @balance -= amount
+
+  end
+
+private
+def over_limit?(amount)
+(@balance + amount) > BALANCE_LIMIT
+
+
+end
+def min_limit?
+@balance < BALANCE_MIN
 end
 
-def pay(n)
-  @balance=@balance-n
-
-end
-def save_journey(key, value)
-  @journeys[key]=value
-
-
-end
-
-def touch_in(entry_station)
-  if @balance >= BALANCE_MIN
-  @in_journey=true
-  @entry_station=entry_station
-  save_journey("Entry", entry_station)
-else
-  raise  "Error minimum balance to touch in is #{BALANCE_MIN}"
-end
-end
-def touch_out(exit_station)
-@in_journey=false
+def fare_pay
 @balance=@balance-FARE
-@entry_station=nil
-@exit_station=exit_station
-end
-def in_journey?
-@entry_station
 end
 
+def journey_log(exit_station)
+@journeys[@entry_station] = exit_station
+end
+
+def entry_reset
+@entry_station=nil
+end
 end
