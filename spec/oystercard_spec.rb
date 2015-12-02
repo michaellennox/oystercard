@@ -15,12 +15,6 @@ describe Oystercard do
       end
     end
 
-    describe '#in_journey?' do
-      it 'should return false when not being used in a journey' do
-        expect(card).not_to be_in_journey
-      end
-    end
-
     describe '#top_up' do
       it 'should increase the existing balance by an amount' do
           expect{ card.top_up(1) }.to change {card.balance}.by 1

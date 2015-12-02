@@ -77,5 +77,8 @@ describe "user stories" do
     expect{station.zone}.not_to raise_error
   end
 
+  #   In order to be charged correctly
+  # As a customer
+  # I need a penalty charge deducted if I fail to touch in or out
 
 end
