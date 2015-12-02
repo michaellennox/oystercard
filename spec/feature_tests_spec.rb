@@ -3,13 +3,9 @@ describe "Feature Tests" do
   let(:maximum_balance) {Oystercard::MAXIMUM_BALANCE}
   let(:minimum_fare) {Oystercard::MINIMUM_FARE}
   let(:station) {Station.new(:name, :zone)}
+  let(:journey) {Journey.new}
 
   describe 'Oystercard' do
-    describe '#initialize Oystercard' do
-      it 'is initially not in a journey' do
-        expect(card.current_journey[:entry_station]).to eq(nil)
-      end
-    end
 
     describe 'behaviour of balance on the card' do
       it 'creates a card with a balance' do
@@ -30,7 +26,7 @@ describe "Feature Tests" do
       it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
         card.top_up(minimum_fare)
         card.touch_in(station)
-        expect(card.current_journey[:entry_station]).to eq(station)
+        expect(card.journey.current_journey[:entry_station]).to eq(station)
       end
 
       it 'raise error if card balance is zero' do
@@ -40,17 +36,21 @@ describe "Feature Tests" do
       it 'remembers the station the journey started from' do
         card.top_up(minimum_fare)
         card.touch_in(station)
-        expect(card.current_journey[:entry_station]).to eq station
+        expect(card.journey.current_journey[:entry_station]).to eq station
       end
     end
 
     describe '#touch_out' do
       it 'allows a card to touch out and end a journey' do
+          card.top_up(minimum_fare)
+          card.touch_in(station)
           card.touch_out(station)
-          expect(card.current_journey[:entry_station]).to eq(nil)
+          expect(card.journey.current_journey[:entry_station]).to eq(nil)
       end
 
       it 'charges customer when they tap out' do
+        card.top_up(minimum_fare)
+        card.touch_in(station)
         expect{card.touch_out((station))}.to change{card.balance}.by(-minimum_fare)
       end
 
@@ -58,7 +58,7 @@ describe "Feature Tests" do
         card.top_up(minimum_fare)
         card.touch_in(station)
         card.touch_out((station))
-        expect(card.current_journey[:entry_station]).to eq nil
+        expect(card.journey.current_journey[:entry_station]).to eq nil
       end
 
     end
@@ -70,7 +70,7 @@ describe "Feature Tests" do
         card.top_up(minimum_fare)
         card.touch_in(entry_station)
         card.touch_out(exit_station)
-        expect(card.journey_history).to eq [{entry_station: entry_station, exit_station: exit_station}]
+        expect(card.journey.journey_history).to eq [{entry_station: entry_station, exit_station: exit_station}]
       end
     end
   end
@@ -101,6 +101,12 @@ describe "Feature Tests" do
 # In order to be charged correctly
 # As a customer
 # I need a penalty charge deducted if I fail to touch in or out
+describe 'Journey defaults' do
+  it 'is initially not in a journey' do
+    expect(journey.current_journey[:entry_station]).to eq(nil)
+  end
+end
+
   xit 'deducts a penalty charge if I fail to touch in' do
     card.top_up(20)
     expect { card.touch_out(station) }.to change { card.balance }.by -6
