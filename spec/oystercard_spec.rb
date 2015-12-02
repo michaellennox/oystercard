@@ -4,7 +4,6 @@ describe Oystercard do
 
   subject(:card) {described_class.new}
   let(:station) { double :station }
-  let(:entry_station) { double :station }
   let(:exit_station) { double :station }
   let(:journey) {{entry: entry_station, exit: exit_station, }}
 
@@ -35,34 +34,23 @@ describe Oystercard do
     end
 
     describe '#touch_in' do
-      it 'should return in journey true after touch in is called' do
+      it 'should create a journey after touch in' do
         card.touch_in(station)
-        expect(card).to be_in_journey
-      end
-
-      it 'should, on touch in, record the entry station' do
-        card.touch_in(station)
-        expect(card.journey[:entry]).to eq station
+        expect(card.current_journey).not_to be nil
       end
     end
 
     describe '#touch_out' do
-      it 'should return in journey false after touch out is called' do
+      it 'should send current_journey the final station' do
         card.touch_in(station)
-        card.touch_out(station)
-        expect(card).not_to be_in_journey
+        card.touch_out(exit_station)
+        expect(card.current_journey.journey[:exit]).to eq exit_station
       end
 
       it 'should, on touch out, update the balance deducting the journey fare' do
         card.touch_in(station)
         card.touch_out(station)
         expect(card.balance).to eq Oystercard::MAXIMUM_BALANCE - Oystercard::MINIMUM_FARE
-      end
-
-      it 'should, on touch out, reset the entry station to nil' do
-        card.touch_in(station)
-        card.touch_out(station)
-        expect(card.journey[:entry]).to eq nil
       end
     end
 
@@ -84,13 +72,10 @@ describe Oystercard do
       it 'should be empty by deafault' do
         expect(card.journeys).to be_empty
       end
-    end
-
-    describe '#journey' do
-      it 'stores a journey' do
-        card.touch_in(entry_station)
+      it 'should store the latest journey' do
+        card.touch_in(station)
         card.touch_out(exit_station)
-        expect(card.journeys).to include journey
+        expect(card.journeys).to include ({entry: station, exit: exit_station})
       end
     end
   end

@@ -20,7 +20,6 @@ describe "user stories" do
  # In order to protect my money from theft or loss
  # As a customer
  # I want a maximum limit (of £90) on my card
-
  it 'So that I don\'t exceed my spending limit, I want a maximum on my card' do
    oyster.top_up(90)
    expect {oyster.top_up(1)}.to raise_error "card limit of 90 exceeded"
@@ -38,7 +37,13 @@ describe "user stories" do
   # As a customer
   # I need to touch in and out.
   it 'should know if it is currently been used in a journey or not' do
-    expect {oyster.in_journey?}.not_to raise_error
+    oyster.top_up(20)
+    expect {oyster.touch_in(station)}.not_to raise_error
+  end
+  it 'should know if it is currently been used in a journey or not' do
+    oyster.top_up(20)
+    oyster.touch_in(station)
+    expect {oyster.touch_out(station)}.not_to raise_error
   end
   #   In order to pay for my journey
   # As a customer
@@ -52,6 +57,7 @@ describe "user stories" do
   # When my journey is complete, I need the correct amount deducted from my card
   it 'So that user can pay for the journey, the correct amount should be deducted on touch out' do
     oyster.top_up(5)
+    oyster.touch_in(station)
     expect {oyster.touch_out(station)}.to_not raise_error
   end
 
