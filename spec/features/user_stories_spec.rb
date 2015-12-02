@@ -1,7 +1,7 @@
 describe "user stories" do
 
   let(:oyster) { Oystercard.new }
-  let(:station) { double :station }
+  let(:station) {Station.new(:liverpoolst, 4)}
 
  # In order to use public transport
  # As a customer
@@ -68,6 +68,13 @@ describe "user stories" do
   # I want to see to all my previous trips
   it 'so that user can know where he has been, the card should store all previous trips' do
     expect {oyster.journeys}.not_to raise_error
+  end
+
+  #   In order to know how far I have travelled
+  # As a customer
+  # I want to know what zone a station is in
+  it 'so that a user knows how far he has travelled, the user wants to know what zone a station is in' do
+    expect{station.zone}.not_to raise_error
   end
 
 
