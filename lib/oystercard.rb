@@ -25,10 +25,8 @@ class Oystercard
   end
 
   def touch_out(station)
-    journey.set_exit(station)
-    @journey_history << current_journey
-    @current_journey = {}
-    deduct(MINIMUM_FARE)
+    start_new_journey
+    @journey.touch_out(station)
   end
 
   def start_new_journey
