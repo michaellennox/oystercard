@@ -23,40 +23,40 @@ describe "Feature Tests" do
     end
 
     describe '#touch_in' do
-      it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
-        card.top_up(minimum_fare)
-        card.touch_in(station)
-        expect(card.journey.current_journey[:entry_station]).to eq(station)
+      context 'card tops up first'do
+        it 'allows a card to touch in and begin journey if balance greater than minimum fare' do
+          card.top_up(minimum_fare)
+          card.touch_in(station)
+          expect(card.journey.current_journey[:entry_station]).to eq(station)
+        end
       end
 
-      it 'raise error if card balance is zero' do
-        expect{card.touch_in(station)}.to raise_error "Insufficent funds: top up"
+      context 'balance is zero' do
+        it 'raises error' do
+          expect{card.touch_in(station)}.to raise_error "Insufficent funds: top up"
+        end
       end
 
-      it 'remembers the station the journey started from' do
-        card.top_up(minimum_fare)
-        card.touch_in(station)
-        expect(card.journey.current_journey[:entry_station]).to eq station
-      end
+
     end
 
     describe '#touch_out' do
+
+      before do
+        card.top_up(minimum_fare)
+        card.touch_in(station)
+      end
+
       it 'allows a card to touch out and end a journey' do
-          card.top_up(minimum_fare)
-          card.touch_in(station)
           card.touch_out(station)
           expect(card.journey.current_journey[:entry_station]).to eq(nil)
       end
 
       it 'charges customer when they tap out' do
-        card.top_up(minimum_fare)
-        card.touch_in(station)
         expect{card.touch_out((station))}.to change{card.balance}.by(-minimum_fare)
       end
 
       it 'clears the entry station upon touch out' do
-        card.top_up(minimum_fare)
-        card.touch_in(station)
         card.touch_out((station))
         expect(card.journey.current_journey[:entry_station]).to eq nil
       end

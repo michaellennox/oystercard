@@ -7,8 +7,6 @@ describe Oystercard do
   let(:minimum_fare) {Oystercard::MINIMUM_FARE}
   let(:station) {double :station}
 
-
-
   describe '#balance' do
     it 'creates a card with a balance' do
       expect(card.balance).to eq 0
@@ -42,5 +40,5 @@ describe Oystercard do
     end
   end
 
-  
+
 end

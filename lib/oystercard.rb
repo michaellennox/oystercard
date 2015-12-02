@@ -27,12 +27,11 @@ class Oystercard
   end
 
 
+  private
+
   def start_new_journey
     Journey.new
   end
-
-  private
-
 
   def deduct(value)
     @balance -= value

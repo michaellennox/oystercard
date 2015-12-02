@@ -1,6 +1,6 @@
 class Journey
 
-attr_reader :current_journey, :journey_history
+attr_reader :journey_history, :current_journey
 
 def initialize
   @journey_history = []
