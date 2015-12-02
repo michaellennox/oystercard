@@ -38,6 +38,13 @@ describe Oystercard do
       card.touch_in(station)
       expect{card.touch_out((station))}.to change{card.balance}.by(-minimum_fare)
     end
+
+    context 'the customer has not touched in' do
+      it 'deducts a penalty charge if I fail to touch in' do
+        card.top_up(20)
+        expect { card.touch_out(station) }.to change { card.balance }.by -6
+      end
+    end
   end
 
 
