@@ -101,13 +101,13 @@ describe "Feature Tests" do
 # In order to be charged correctly
 # As a customer
 # I need a penalty charge deducted if I fail to touch in or out
-describe 'Journey defaults' do
-  it 'is initially not in a journey' do
-    expect(journey.current_journey[:entry_station]).to eq(nil)
+  describe 'Journey defaults' do
+    it 'is initially not in a journey' do
+      expect(journey.current_journey[:entry_station]).to eq(nil)
+    end
   end
-end
 
-  xit 'deducts a penalty charge if I fail to touch in' do
+  it 'deducts a penalty charge if I fail to touch in' do
     card.top_up(20)
     expect { card.touch_out(station) }.to change { card.balance }.by -6
   end
