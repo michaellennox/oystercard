@@ -1,0 +1,4 @@
+class Journey
+
+  
+end

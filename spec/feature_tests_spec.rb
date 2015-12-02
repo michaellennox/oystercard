@@ -2,7 +2,7 @@ describe "Feature Tests" do
   let(:card) {Oystercard.new}
   let(:maximum_balance) {Oystercard::MAXIMUM_BALANCE}
   let(:minimum_fare) {Oystercard::MINIMUM_FARE}
-  let(:station) {double(:station)}
+  let(:station) {Station.new(:name, :zone)}
 
   describe 'Oystercard' do
     describe '#initialize Oystercard' do
@@ -95,6 +95,19 @@ describe "Feature Tests" do
       station = Station.new('Euston', 2)
       expect(station.name).to eq 'Euston'
     end
+  end
+
+  describe 'Journey' do
+# In order to be charged correctly
+# As a customer
+# I need a penalty charge deducted if I fail to touch in or out
+  it 'deducts a penalty charge if I fail to touch in' do
+    card.top_up(20)
+    expect { card.touch_out(station) }.to change { card.balance }.by -6
+  end
+
+
+
   end
 
 end
