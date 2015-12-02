@@ -26,11 +26,17 @@ def pay(n)
   @balance=@balance-n
 
 end
+def save_journey(key, value)
+  @journeys[key]=value
+
+
+end
 
 def touch_in(entry_station)
   if @balance >= BALANCE_MIN
   @in_journey=true
   @entry_station=entry_station
+  save_journey("Entry", entry_station)
 else
   raise  "Error minimum balance to touch in is #{BALANCE_MIN}"
 end

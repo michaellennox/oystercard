@@ -91,4 +91,12 @@ describe '#in_journey' do
 
 end
 end
+
+describe '#journeys' do
+  it 'should store entry station into a hash' do
+    card.top_up(rand_num)
+    card.touch_in(entry_station)
+    expect(card.journeys["Entry"]).to eq entry_station
+  end
+end
 end
