@@ -38,13 +38,18 @@ describe Oystercard do
         card.touch_in(station)
         expect(card.current_journey).not_to be nil
       end
+
+      it 'a penalty charge should be deducted if user touches in without touching out' do
+          card.touch_in(station)
+          card.touch_in(station)
+          expect(card.balance).to eq 84
+      end
     end
 
     describe '#touch_out' do
-      it 'should send current_journey the final station' do
-        card.touch_in(station)
-        card.touch_out(exit_station)
-        expect(card.current_journey.journey[:exit]).to eq exit_station
+      it 'penalty charge should be deducted if user touches out without touching in' do
+          card.touch_out(station)
+          expect(card.balance).to eq 84
       end
 
       it 'should, on touch out, update the balance deducting the journey fare' do

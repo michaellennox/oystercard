@@ -1,7 +1,8 @@
 class Journey
 
   MINIMUM_FARE = 1
-  
+  PENALTY = 6
+
   attr_reader :journey
 
   def initialize(start_point)
