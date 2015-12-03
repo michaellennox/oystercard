@@ -1,6 +1,5 @@
 require 'oystercard'
 
-
 describe Oystercard do
   subject(:card) { described_class.new }
   let(:maximum_balance) { Oystercard::MAXIMUM_BALANCE}
@@ -30,11 +29,14 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
-
     it 'raises error if insufficent funds' do
       expect{ card.touch_in(station) }.to raise_error "Insufficent funds: top up"
     end
-
+    it 'charges a penalty fare if journey was not completed before touching in' do
+      card.top_up(20)
+      card.touch_in(station)
+      expect{ card.touch_in(station) }.to change{ card.balance }.by (-6)
+    end
   end
 
   describe '#touch_out' do

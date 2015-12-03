@@ -20,25 +20,28 @@ class Oystercard
 
   def touch_in(station)
     fail "Insufficent funds: top up" if below_min_balance?
+    charge_and_log if journey_exists?
     start_new_journey
     journey.set_entry(station)
   end
 
   def touch_out(station)
-    if journey_exists?
-      deduct(PENALTY_FARE)
-    else
-      journey.set_exit(station)
-      journey_history << journey.current_journey
-      deduct(journey.fare)
-    end
+    start_new_journey unless journey_exists?
+    journey.set_exit(station)
+    charge_and_log
+    @journey = nil
   end
 
 
   private
 
+  def charge_and_log
+    deduct(journey.fare)
+    journey_history << journey.current_journey
+  end
+
   def journey_exists?
-    journey.nil?
+    !journey.nil?
   end
 
   def below_min_balance?

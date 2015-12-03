@@ -28,19 +28,31 @@ describe Journey do
   end
 
   describe '#fare' do
-    it 'returns the minimum fare' do
+    it 'returns the minimum fare if journey is complete' do
+      journey.set_entry(station1)
+      journey.set_exit(station2)
       expect(journey.fare).to eq (Journey::MINIMUM_FARE)
+    end
+
+    it 'returns the penalty fare if journey is incomplete' do
+      expect(journey.fare).to eq Journey::PENALTY_FARE
     end
   end
 
-  describe 'in_journey?' do
-    it 'returns true if currently in journey' do
+  describe 'journey_complete?' do
+    it 'returns false if currently in journey' do
       journey.set_entry(station1)
-      expect(journey.in_journey?).to be true
+      expect(journey.journey_complete?).to be false
     end
 
     it 'returns false if not currently in journey' do
-      expect(journey.in_journey?).to be false
+      expect(journey.journey_complete?).to be false
+    end
+
+    it 'returns true if the current journey is complete' do
+      journey.set_entry(station1)
+      journey.set_exit(station2)
+      expect(journey.journey_complete?).to be true
     end
   end
 
