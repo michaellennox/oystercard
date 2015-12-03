@@ -2,7 +2,7 @@ require 'station'
 
 
 describe Station do
-    subject {described_class.new(name: "Old Street", zone: 1)}
+    subject {described_class.new("Old Street", 1)}
 describe '#name' do
   it 'should save a name when creating a new station'do
 
