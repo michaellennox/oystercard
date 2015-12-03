@@ -1,27 +1,23 @@
 class Journey
 
-attr_reader :current_journey
+  MINIMUM_FARE = 1
 
-def initialize
-  @current_journey = {}
-end
+  attr_reader :current_journey
 
-def touch_in(station)
-  set_entry(station)
-end
+  def initialize
+    @current_journey = {}
+  end
 
-def touch_out(station)
-  set_exit(station)
-end
+  def set_entry(station)
+    @current_journey[:entry_station] = station
+  end
 
-private
+  def set_exit(station)
+    @current_journey[:exit_station] = station
+  end
 
-def set_entry(station)
-  @current_journey[:entry_station] = station
-end
-
-def set_exit(station)
-  @current_journey[:exit_station] = station
-end
+  def fare
+    MINIMUM_FARE
+  end
 
 end
