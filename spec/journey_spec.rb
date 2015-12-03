@@ -35,6 +35,7 @@ describe Journey do
     end
 
     it 'returns the penalty fare if journey is incomplete' do
+      journey.set_entry(station1)
       expect(journey.fare).to eq Journey::PENALTY_FARE
     end
   end
@@ -42,10 +43,6 @@ describe Journey do
   describe 'journey_complete?' do
     it 'returns false if currently in journey' do
       journey.set_entry(station1)
-      expect(journey.journey_complete?).to be false
-    end
-
-    it 'returns false if not currently in journey' do
       expect(journey.journey_complete?).to be false
     end
 

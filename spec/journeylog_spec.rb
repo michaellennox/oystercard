@@ -4,7 +4,7 @@ describe JourneyLog do
 
   subject(:journeylog) { described_class.new(journey: journeyinit) }
   let(:journeyinit) { double :journey, new: journey }
-  let(:journey) { double :journey, set_entry: nil, set_exit: nil, current_journey: nil, fare: nil }
+  let(:journey) { double :journey, set_entry: nil, set_exit: nil, current_journey: nil, fare: nil, complete?: true }
   let(:station1) { double :station }
 
   it 'should initialize with an empty array to log the journies' do
@@ -38,13 +38,7 @@ describe JourneyLog do
       allow(journey).to receive(:fare).and_return(1)
       journeylog.start_journey(station1)
       journeylog.end_journey(station1)
-      expect(journeylog.final_fare).to eq 1
-    end
-    it 'should close the journey' do
-      journeylog.start_journey(station1)
-      journeylog.end_journey(station1)
-      journeylog.final_fare
-      expect(journeylog.current_journey).to be nil
+      expect(journeylog.outstanding_charges).to eq 1
     end
   end
 

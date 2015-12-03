@@ -18,11 +18,18 @@ class Journey
   end
 
   def fare
-    journey_complete? ? MINIMUM_FARE : PENALTY_FARE
+    journey_complete? ? fare = MINIMUM_FARE : fare = PENALTY_FARE
+    fill_journey
+    fare
+  end
+
+  def fill_journey
+    current_journey[:entry_station] = :failure if current_journey[:entry_station].nil?
+    current_journey[:exit_station] = :failure if current_journey[:exit_station].nil?
   end
 
   def journey_complete?
-    !current_journey[:entry_station].nil? && !current_journey[:exit_station].nil?
+    !current_journey[:entry_station].nil? && !current_journey[:exit_station].nil? || current_journey[:entry_station].nil? && current_journey[:exit_station].nil?
   end
 
 end
