@@ -74,13 +74,13 @@ describe Oystercard do
       it 'in_journey should be true after touching in' do
         card.top_up(rand_num)
         card.touch_in(entry_station)
-        expect(card.in_journey?).to eq entry_station
+        expect(card.in_journey?).to eq true
       end
       it 'in_journey should be false after touching out' do
         card.top_up(rand_num)
         card.touch_in(entry_station)
         card.touch_out(exit_station)
-        expect(card.in_journey?).to eq nil
+        expect(card.in_journey?).to eq false
       end
 
 
@@ -92,7 +92,7 @@ describe Oystercard do
       card.top_up(rand_num)
       card.touch_in(entry_station)
       card.touch_out(exit_station)
-      expect(card.journeys).to eq ({entry_station => exit_station})
+      expect(card.journeys).to eq ({1=>[entry_station, exit_station]})
     end
     it 'the journeys hash should defult be empty' do
    expect(card.journeys).to be_empty
