@@ -1,9 +1,8 @@
 class Journey
 
-attr_reader :journey_history, :current_journey
+attr_reader :current_journey
 
 def initialize
-  @journey_history = []
   @current_journey = {}
 end
 
@@ -13,8 +12,6 @@ end
 
 def touch_out(station)
   set_exit(station)
-  @journey_history << current_journey
-  @current_journey = {}
 end
 
 private

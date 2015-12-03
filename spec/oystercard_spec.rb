@@ -7,7 +7,11 @@ describe Oystercard do
   let(:minimum_fare) {Oystercard::MINIMUM_FARE}
   let(:station) {double :station}
 
-  describe '#balance' do
+  describe '#initialize' do
+    it 'has an empty journey list' do
+      expect(card.journey_history).to eq []
+    end
+
     it 'creates a card with a balance' do
       expect(card.balance).to eq 0
     end
@@ -38,14 +42,22 @@ describe Oystercard do
       card.touch_in(station)
       expect{card.touch_out((station))}.to change{card.balance}.by(-minimum_fare)
     end
+  end
 
-    context 'the customer has not touched in' do
-      it 'deducts a penalty charge if I fail to touch in' do
-        card.top_up(20)
-        expect { card.touch_out(station) }.to change { card.balance }.by -6
-      end
+  describe 'completed journeys' do
+    it 'can recall previous journeys' do
+      entry_station = double(:station)
+      exit_station = double(:station)
+      journey.touch_in(entry_station)
+      journey.touch_out(exit_station)
+      expect(journey.journey_history).to eq [{entry_station: entry_station, exit_station: exit_station}]
     end
   end
 
-
+  xcontext 'the customer has not touched in' do
+    it 'deducts a penalty charge if I fail to touch in' do
+      card.top_up(20)
+      expect { card.touch_out(station) }.to change { card.balance }.by -6
+    end
+  end
 end

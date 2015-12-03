@@ -2,41 +2,31 @@ require 'journey'
 
 describe Journey do
   subject(:journey) {described_class.new}
-  let(:card) {double(:Oystercard)}
+  let(:card) {double(:oystercard)}
   let(:minimum_fare) {Oystercard::MINIMUM_FARE}
+  let(:station1) {double(:station)}
+  let(:station2) {double(:station)}
 
-  describe 'defaults' do
+  describe '#initialize' do
     it 'is initially not in a journey' do
       expect(journey.current_journey[:entry_station]).to eq(nil)
     end
-
-    it 'has an empty journey list' do
-      expect(journey.journey_history).to eq []
-    end
   end
 
-  context 'touch in' do
+  describe '#touch_in' do
     it 'remembers the station the journey started from' do
-      journey.touch_in(:station)
-      expect(journey.current_journey[:entry_station]).to eq :station
+      journey.touch_in(station1)
+      expect(journey.current_journey[:entry_station]).to eq station1
     end
   end
 
-  context 'touch out' do
+  describe '#touch_out' do
     it 'clears entry station on touch out' do
-      journey.touch_in(:station)
-      journey.touch_out(:station)
-      expect(journey.current_journey[:entry_station]).to eq nil
+      journey.touch_in(station1)
+      journey.touch_out(station2)
+      expect(journey.current_journey[:exit_station]).to eq station2
     end
   end
 
-  context 'completed journeys' do
-    it 'can recall previous journeys' do
-      entry_station = double(:station)
-      exit_station = double(:station)
-      journey.touch_in(entry_station)
-      journey.touch_out(exit_station)
-      expect(journey.journey_history).to eq [{entry_station: entry_station, exit_station: exit_station}]
-    end
-  end
+
 end
