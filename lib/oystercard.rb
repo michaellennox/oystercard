@@ -25,8 +25,8 @@ class Oystercard
 
   def touch_out(station)
     start_journey_on_exit if last_journey_complete?
-    journeylog.end_journey(station) # take this out, still pass arg
-    charge # take this out, maybe keep charge?
+    journeylog.end_journey(station) 
+    charge
   end
 
 
