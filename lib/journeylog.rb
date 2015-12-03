@@ -17,4 +17,13 @@ class JourneyLog
     new_journey
     current_journey.set_entry(station)
   end
+
+  def end_journey(station)
+    current_journey.set_exit(station)
+    history << current_journey.current_journey
+  end
+
+  def final_fare
+    current_journey.fare
+  end
 end
