@@ -24,7 +24,6 @@ class Oystercard
   end
 
   def touch_out(exit_station)
-    #journey_log(exit_station)
     @journey.make_hash(exit_station)
     fare_pay
     @journey.entry_reset
@@ -42,7 +41,5 @@ class Oystercard
   def min_limit?
     @balance < BALANCE_MIN
   end
-
-
 
 end

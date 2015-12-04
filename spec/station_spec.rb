@@ -1,24 +1,19 @@
 require 'station'
 
-
 describe Station do
   subject {described_class.new("Old Street", 1)}
+
   describe '#name' do
-    it 'should save a name when creating a new station'do
+    it 'should save a name when creating a new station' do
+      expect(subject.name).to eq ("Old Street")
+    end
 
-    expect(subject.name).to eq ("Old Street")
   end
-end
 
-describe '#zone' do
-  it 'should save a zone when creating a new station' do
-
-    expect(subject.zone).to eq(1)
+  describe '#zone' do
+    it 'should save a zone when creating a new station' do
+      expect(subject.zone).to eq(1)
+    end
   end
-end
-
-
-
-
 
 end
