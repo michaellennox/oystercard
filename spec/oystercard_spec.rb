@@ -2,7 +2,8 @@ require 'oystercard'
 
 
 describe Oystercard do
-  subject(:card) {described_class.new}
+  subject(:card) {described_class.new(journey: journey) }
+  let(:journey) { double(:journey, journey_complete?: true, log_entry: nil) }
   let(:rand_num) {rand(1..40)}
   let(:entry_station){ double :station }
   let(:exit_station) { double :station }
@@ -39,6 +40,19 @@ describe Oystercard do
     it 'should raise an error if balance is less than the BALANCE_MIN' do
       min_balance=Oystercard::BALANCE_MIN
       expect{card.touch_in(entry_station)}.to raise_error "Error minimum balance to touch in is #{min_balance}"
+    end
+
+    it 'should tell journey to start a new journey' do
+      expect(journey).to receive(:log_entry).with(entry_station)
+      card.top_up(10)
+      card.touch_in(entry_station)
+    end
+
+    it 'should charge the PENALTY_FARE if previous journey was incomplete' do
+      card.top_up(10)
+      allow(journey).to receive(:journey_complete?).and_return(false)
+      allow(journey).to receive(:fare).and_return(6)
+      expect{card.touch_in(exit_station)}.to change{card.balance}.by (-6)
     end
 
   end

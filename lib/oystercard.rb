@@ -7,9 +7,9 @@ class Oystercard
   BALANCE_MIN = 1
   FARE = 1
 
-  def initialize
-    @balance=0
-    @journey=Journey.new
+  def initialize(journey: Journey.new)
+    @balance = 0
+    @journey = journey
   end
 
   def top_up(amount)
@@ -19,8 +19,8 @@ class Oystercard
 
   def touch_in(entry_station)
     raise  "Error minimum balance to touch in is #{BALANCE_MIN}" if min_limit?
-    @entry_station=entry_station
-    @journey.make_hash_entry(entry_station)
+    pay(journey.fare) if !journey.journey_complete?
+    journey.log_entry(entry_station)
   end
 
   def touch_out(exit_station)
@@ -43,12 +43,6 @@ class Oystercard
     @balance < BALANCE_MIN
   end
 
-  def fare_pay
-    if @journey.fine1?
-      @balance=@balance-FARE-6
-    else
-      @balance=@balance-FARE
-    end
-  end
+
 
 end

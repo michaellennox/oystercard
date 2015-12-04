@@ -37,4 +37,18 @@ describe Journey do
     end
   end
 
+  describe '#fare' do
+
+    it 'should return MIN_FARE if journey is complete' do
+      journey.log_entry(station)
+      journey.log_exit(station2)
+      expect(journey.fare).to eq Journey::MIN_FARE
+    end
+
+    it 'should return PENALTY_FARE if journey is incomplete' do
+      journey.log_entry(station)
+      expect(journey.fare).to eq Journey::PENALTY_FARE
+    end
+
+  end
 end
