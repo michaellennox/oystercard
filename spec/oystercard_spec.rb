@@ -87,15 +87,4 @@ describe Oystercard do
     end
   end
 
-  describe '#journeys' do
-    it 'should store both the entry and exit station into a hash' do
-      card.top_up(rand_num)
-      card.touch_in(entry_station)
-      card.touch_out(exit_station)
-      expect(card.journeys).to eq ({1=>[entry_station, exit_station]})
-    end
-    it 'the journeys hash should defult be empty' do
-   expect(card.journeys).to be_empty
-    end
-  end
 end
