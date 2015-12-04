@@ -24,15 +24,16 @@ describe Journey do
     it 'should return true when journey is complete' do
       journey.log_entry(station)
       journey.log_exit(station)
-      expect(journey.in_journey?)
+      expect(journey.journey_complete?).to be true
     end
 
     it 'should return false when journey is not complete' do
-
+      journey.log_entry(station)
+      expect(journey.journey_complete?).to be false
     end
 
     it 'should return true before journey starts' do
-      
+      expect(journey.journey_complete?).to be true
     end
   end
 
