@@ -1,18 +1,14 @@
-#11
+require_relative 'journey'
 
 class Oystercard
-  attr_reader :balance, :entry_station, :journeys, :index, :index2
-  attr_reader :in_journey
+  attr_reader :balance, :entry_station, :journey
 
   BALANCE_LIMIT = 90
   BALANCE_MIN = 1
   FARE = 1
   def initialize
-    @index2=0
-    @index=0
     @balance=0
-    @in_journey=false
-    @journeys={}
+    @journey=Journey.new
   end
 
   def top_up(amount)
@@ -27,24 +23,24 @@ raise "Error £#{BALANCE_LIMIT} limit exceeded" if over_limit?(amount)
   def touch_in(entry_station)
     raise  "Error minimum balance to touch in is #{BALANCE_MIN}" if min_limit?
 
-      @in_journey=true
+
       @entry_station=entry_station
-      make_hash_entry
+      @journey.make_hash_entry(entry_station)
 
 
   end
   def touch_out(exit_station)
-    @in_journey=false
-    fare_pay
+
+
     #journey_log(exit_station)
-    make_hash(exit_station)
-    entry_reset
+    @journey.make_hash(exit_station)
+    fare_pay
+    @journey.entry_reset
+
 
 
   end
-  def in_journey?
-    @in_journey
-  end
+
   def pay(amount)
     @balance -= amount
 
@@ -61,22 +57,16 @@ def min_limit?
 end
 
 def fare_pay
-@balance=@balance-FARE
+
+if @journey.fine1?
+  @balance=@balance-FARE-6
+else
+  @balance=@balance-FARE
+end
 end
 
-def journey_log(exit_station)
-@journeys[@entry_station] = exit_station
-end
 
-def entry_reset
-@entry_station=nil
-end
-def make_hash_entry
-@journeys[@index2=@index2+1]=[@entry_station, nil]
-end
-def make_hash(exit_station)
 
-  @journeys[@index=@index+1]=[@entry_station,exit_station]
-end
+
 
 end
